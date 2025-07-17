@@ -13,5 +13,10 @@
     "name": "gemini.api.key",
     "type": "java.lang.String",
     "description": "A description for 'gemini.api.key'"
+  },
+  {
+    "name": "twilio.auth.token",
+    "type": "java.lang.String",
+    "description": "A description for 'twilio.auth.token'"
   }
 ]}

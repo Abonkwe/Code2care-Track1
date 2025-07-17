@@ -36,8 +36,6 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String path = request.getRequestURI();
-        // Debug log for path
-        System.out.println("JwtFilter request path: " + path);
         // Allow all /api/auth/* endpoints
         if (path.startsWith("/api/auth/")) {
             filterChain.doFilter(request, response);

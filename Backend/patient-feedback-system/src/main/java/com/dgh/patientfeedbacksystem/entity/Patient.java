@@ -22,6 +22,8 @@ public class Patient {
     @Column(unique = true)
     private String email;
 
+    private String phoneNumber;
+
     private String password;
     
     @CreationTimestamp
@@ -33,4 +35,9 @@ public class Patient {
      
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private ReminderPreference reminderPreference;
+
 }
+

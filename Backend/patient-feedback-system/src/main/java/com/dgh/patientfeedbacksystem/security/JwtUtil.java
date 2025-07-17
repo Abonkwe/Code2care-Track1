@@ -1,10 +1,13 @@
 package com.dgh.patientfeedbacksystem.security;
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.security.Key;
 
 @Component
 public class JwtUtil {
@@ -15,12 +18,18 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expiration;
 
+    private Key getSigningKey() {
+        // Convert the secret string to a HMAC-SHA key
+        return Keys.hmacShaKeyFor(secret.getBytes());
+    }
+
+
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
 
@@ -38,6 +47,8 @@ public class JwtUtil {
     }
 
     private Claims getClaims(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 }
